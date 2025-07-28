@@ -31,7 +31,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             // al ser de tipo password toca hacer esto
             String pass =  new String(campo_pass.getPassword());
             
-            // hola
+            // agrego comentarios de prueba
             
                     if(campo_usuario.getText().isEmpty() || campo_pass.getText().isEmpty()){
                           JOptionPane.showMessageDialog(null, "Debes llenar los campos");

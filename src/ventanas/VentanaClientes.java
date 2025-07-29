@@ -5,9 +5,12 @@ import java.sql.Statement;
 import java.awt.Image;
 import java.awt.Toolkit;
 import conexiones.Conexiones;
+import java.awt.Font;
 import  java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 
 public class VentanaClientes extends javax.swing.JFrame {
@@ -22,6 +25,7 @@ public class VentanaClientes extends javax.swing.JFrame {
             setResizable(false);
             
             mostrar("clientes");
+            
     }
     
     public void mostrar(String tabla){
@@ -32,11 +36,19 @@ public class VentanaClientes extends javax.swing.JFrame {
                  new Object[][]{},
                 new String[]{ "Id_cliente","Nombre","Direccion","Telefono"}
         ) {
-            public boolean  noeditable(int row, int column){
+            public boolean  isCellEditable(int row, int column){
                 return  false;
             }
         };
+        // Crear el modelo...
         tabla1.setModel(modelo);
+
+        // Cambiar la fuente
+        tabla1.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
+
+        // Centrar encabezados
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tabla1.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
         
         for (int f = 0;   f <tabla1.getColumnCount();  f++) {
             tabla1.getColumnModel().getColumn(f).setResizable(false);
@@ -53,15 +65,24 @@ public class VentanaClientes extends javax.swing.JFrame {
                 datos[2] = resultado.getString(3);
                 datos[3] = resultado.getString(4);
                 modelo.addRow(datos);
-            }
-            
-            
+            } 
             
         } catch (SQLException e) {
             System.out.println("Error->" + e);
         }
         
+            centrarTexto(tabla1);
+        
     }
+ 
+         //Método para centrar los valores en cada celda
+        public void centrarTexto(JTable tabla) {
+            DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+            centrado.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            for (int i = 0; i < tabla.getColumnCount(); i++) {
+                tabla.getColumnModel().getColumn(i).setCellRenderer(centrado);
+            }
+        }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -75,7 +96,7 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_insertar = new javax.swing.JButton();
         b_actualizar = new javax.swing.JButton();
         b_borrar = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        b_buscar = new javax.swing.JButton();
         id = new javax.swing.JLabel();
         nombre = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -96,7 +117,7 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_volver.setForeground(new java.awt.Color(255, 255, 255));
         b_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/volver.png"))); // NOI18N
         b_volver.setText("Volver");
-        b_volver.setBorder(null);
+        b_volver.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_volverActionPerformed(evt);
@@ -109,7 +130,7 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_salir.setForeground(new java.awt.Color(255, 255, 255));
         b_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir.png"))); // NOI18N
         b_salir.setText("Salir");
-        b_salir.setBorder(null);
+        b_salir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_salirActionPerformed(evt);
@@ -129,31 +150,40 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_insertar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         b_insertar.setForeground(new java.awt.Color(255, 255, 255));
         b_insertar.setText("Insertar");
+        b_insertar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_insertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_insertarActionPerformed(evt);
             }
         });
-        getContentPane().add(b_insertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
+        getContentPane().add(b_insertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 179, 90, 30));
 
         b_actualizar.setBackground(new java.awt.Color(25, 153, 0));
         b_actualizar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         b_actualizar.setForeground(new java.awt.Color(255, 255, 255));
         b_actualizar.setText("Actualizar");
-        getContentPane().add(b_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, -1));
+        b_actualizar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(b_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 179, 100, 30));
 
         b_borrar.setBackground(new java.awt.Color(25, 153, 0));
         b_borrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         b_borrar.setForeground(new java.awt.Color(255, 255, 255));
         b_borrar.setText("Borrar");
-        getContentPane().add(b_borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, -1, -1));
+        b_borrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(b_borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 179, 70, 30));
 
-        jButton4.setBackground(new java.awt.Color(25, 153, 0));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
-        jButton4.setText("Buscar");
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(739, 70, -1, 70));
+        b_buscar.setBackground(new java.awt.Color(25, 153, 0));
+        b_buscar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        b_buscar.setForeground(new java.awt.Color(255, 255, 255));
+        b_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
+        b_buscar.setText("Buscar");
+        b_buscar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        b_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_buscarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(b_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(739, 70, -1, 70));
 
         id.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         id.setText("ID");
@@ -215,6 +245,10 @@ public class VentanaClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void b_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_buscarActionPerformed
+        
+    }//GEN-LAST:event_b_buscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -253,12 +287,12 @@ public class VentanaClientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_actualizar;
     private javax.swing.JButton b_borrar;
+    private javax.swing.JButton b_buscar;
     private javax.swing.JButton b_insertar;
     private javax.swing.JButton b_salir;
     private javax.swing.JButton b_volver;
     private javax.swing.JLabel copy;
     private javax.swing.JLabel id;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

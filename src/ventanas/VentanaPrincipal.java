@@ -44,6 +44,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().add(l_icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, 142));
 
         l_text.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        l_text.setForeground(new java.awt.Color(0, 102, 102));
         l_text.setText("Modulo De Administracion");
         getContentPane().add(l_text, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 400, -1));
 
@@ -175,7 +176,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_clientesActionPerformed
-        // TODO add your handling code here:
+        // cerrar venta priuncipla 
+        dispose();
+        //abrinr ventana de clientes
+        new VentanaClientes().setVisible(true);
     }//GEN-LAST:event_b_clientesActionPerformed
 
     private void b_productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_productosActionPerformed
@@ -184,6 +188,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void b_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_salirActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_b_salirActionPerformed
 
     private void b_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_emailActionPerformed

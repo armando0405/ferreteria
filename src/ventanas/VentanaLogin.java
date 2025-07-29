@@ -105,8 +105,8 @@ public class VentanaLogin extends javax.swing.JFrame {
         setTitle("LOGIN DE USUSARIO");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        l_logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ventanas/logo.png"))); // NOI18N
-        getContentPane().add(l_logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, 250));
+        l_logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logo_principal.png"))); // NOI18N
+        getContentPane().add(l_logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 110, 120));
 
         l_login.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         l_login.setForeground(new java.awt.Color(0, 0, 0));
@@ -157,7 +157,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         });
         getContentPane().add(b_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 470, 100, 40));
 
-        l_fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ventanas/fondo_login.jpg"))); // NOI18N
+        l_fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo_login.jpg"))); // NOI18N
         getContentPane().add(l_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 401, 588));
 
         pack();
@@ -172,6 +172,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_campo_passActionPerformed
 
     private void b_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_salirActionPerformed
+       // cerrar programa
         System.exit(0);
     }//GEN-LAST:event_b_salirActionPerformed
 

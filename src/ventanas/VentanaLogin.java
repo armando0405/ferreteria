@@ -5,7 +5,6 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import conexiones.Conexiones;
 
@@ -19,7 +18,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         
         // poner el fomrulario en el centro
         setLocationRelativeTo(null);
-        
+         setResizable(false);
     }
         int intentos = 0;
         private void loginUsuario(){
@@ -46,7 +45,9 @@ public class VentanaLogin extends javax.swing.JFrame {
                             resultado = consulta.executeQuery();
                             
                             if (resultado.next()) {
-                                JOptionPane.showMessageDialog(null, "Binevenido " + user, ": Acesso correcto", JOptionPane.INFORMATION_MESSAGE);
+                                //JOptionPane.showMessageDialog(null, "Binevenido " + user, ": Acesso correcto", JOptionPane.INFORMATION_MESSAGE);
+                                dispose();
+                                new VentanaPrincipal().setVisible(true);
                                 
                             } else {
                                 JOptionPane.showMessageDialog(null, "Error: \n USUARIO/CONTRASEÑA INCORRECTOS \n INTENTE DE NUEVO...", "ALERTA", JOptionPane.ERROR_MESSAGE);
@@ -66,23 +67,6 @@ public class VentanaLogin extends javax.swing.JFrame {
                     System.out.println(intentos);
             
 
-
-            /* 
-            
-            if(t_user.getText().isEmpty() || t_pass.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Debes llenar los campos");
-            }
-            if(!user.equals(UsuarioCorrecto) || !pass.equals(PassCorrecta)){
-                 JOptionPane.showMessageDialog(null, "Error: \n USUARIO/CONTRASEÑA INCORRECTOS \n INTENTE DE NUEVO...", "ALERTA", JOptionPane.ERROR_MESSAGE);
-                 intentos++;
-            }else{
-                JOptionPane.showMessageDialog(null, "", "Binevenido: Acesso correcto", JOptionPane.INFORMATION_MESSAGE);
-            }
-            if(intentos > 3){
-                JOptionPane.showMessageDialog(null, "Error: \n CANTIDAD DE INTENTOS AGOTADA \n CERRANDO PROGRAMA", "ALERTA", JOptionPane.WARNING_MESSAGE);
-                System.exit(0);
-            }
-            */
         }
         
 
@@ -165,6 +149,9 @@ public class VentanaLogin extends javax.swing.JFrame {
 
     private void b_accederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_accederActionPerformed
         loginUsuario();
+        
+        
+       
     }//GEN-LAST:event_b_accederActionPerformed
 
     private void campo_passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo_passActionPerformed

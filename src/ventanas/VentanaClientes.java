@@ -2,13 +2,15 @@
 package ventanas;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import conexiones.Conexiones;
+import java.sql.PreparedStatement;
 import java.awt.Image;
 import java.awt.Toolkit;
-import conexiones.Conexiones;
 import java.awt.Font;
 import  java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -17,27 +19,27 @@ public class VentanaClientes extends javax.swing.JFrame {
 
     public VentanaClientes() {
         initComponents();
-        Image icono =  Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono.png"));
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono.png"));
         setIconImage(icono);
-        
+
         // poner el fomrulario en el centro
         setLocationRelativeTo(null);
-            setResizable(false);
-            
-            mostrar("clientes");
-            
+        setResizable(false);
+
+        mostrar("clientes");
+
     }
-    
-    public void mostrar(String tabla){
-        String sql = "select * from "+ tabla;
-        Connection conectar  = Conexiones.conectar();
-        
+
+    public void mostrar(String tabla) {
+        String sql = "select * from " + tabla;
+        Connection conectar = Conexiones.conectar();
+
         DefaultTableModel modelo = new DefaultTableModel(
-                 new Object[][]{},
-                new String[]{ "Id_cliente","Nombre","Direccion","Telefono"}
+                new Object[][]{},
+                new String[]{"Id_cliente", "Nombre", "Direccion", "Telefono"}
         ) {
-            public boolean  isCellEditable(int row, int column){
-                return  false;
+            public boolean isCellEditable(int row, int column) {
+                return false;
             }
         };
         // Crear el modelo...
@@ -49,40 +51,113 @@ public class VentanaClientes extends javax.swing.JFrame {
         // Centrar encabezados
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tabla1.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-        
-        for (int f = 0;   f <tabla1.getColumnCount();  f++) {
+
+        for (int f = 0; f < tabla1.getColumnCount(); f++) {
             tabla1.getColumnModel().getColumn(f).setResizable(false);
-            
+
         }
         String[] datos = new String[4];
         try {
             Statement consulta = conectar.createStatement();
-            ResultSet resultado =  consulta.executeQuery(sql);
-            
+            ResultSet resultado = consulta.executeQuery(sql);
+
             while (resultado.next()) {
                 datos[0] = resultado.getString(1);
                 datos[1] = resultado.getString(2);
                 datos[2] = resultado.getString(3);
                 datos[3] = resultado.getString(4);
                 modelo.addRow(datos);
-            } 
-            
+            }
+
         } catch (SQLException e) {
             System.out.println("Error->" + e);
         }
+
+        centrarTexto(tabla1);
+
+    }
+
+    //Método para centrar los valores en cada celda
+    public void centrarTexto(JTable tabla) {
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(centrado);
+        }
+    }
+    
+    public void buscarIdUsuario(){
+        String  id = t_id.getText();
         
-            centrarTexto(tabla1);
+        Connection conectar = Conexiones.conectar();
+        String sql = "select * from clientes  where id_cliente = ?";
+        DefaultTableModel modelo =  (DefaultTableModel) tabla1.getModel();
+        modelo.setRowCount(0);
+        try {
+            PreparedStatement consulta = conectar.prepareStatement(sql);
+            consulta.setString(1, id);
+            ResultSet resultado = consulta.executeQuery();
+            
+            if (resultado.next()) {
+                String[] datos = {
+                    resultado.getString("id_cliente"),
+                    resultado.getString("nombre"),
+                    resultado.getString("Direccion"),
+                    resultado.getString("telefono"),
+                };
+                modelo.addRow(datos);
+                
+            }else{
+                 JOptionPane.showMessageDialog(this, "ID DE CLIENTE NO ENCOTRADO", "RESULTADO DE BUSQUEDA", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e);
+            JOptionPane.showMessageDialog(null, "ERROR-> "+ e, "ERROR",JOptionPane.ERROR_MESSAGE);
+        }
         
     }
- 
-         //Método para centrar los valores en cada celda
-        public void centrarTexto(JTable tabla) {
-            DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
-            centrado.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-            for (int i = 0; i < tabla.getColumnCount(); i++) {
-                tabla.getColumnModel().getColumn(i).setCellRenderer(centrado);
+    
+    public void buscarNombeUsuario() {
+        String nombre = t_nombre.getText();
+
+        Connection conectar = Conexiones.conectar();
+        String sql = "select * from clientes  where nombre  like ?";
+        DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
+        modelo.setRowCount(0);
+
+        try {
+            PreparedStatement consulta = conectar.prepareStatement(sql);
+            consulta.setString(1, "%" + nombre + "%");
+            ResultSet resultado = consulta.executeQuery();
+            
+            boolean encontrado = false;
+            while (resultado.next()) {
+                String[] datos = {
+                    resultado.getString("id_cliente"),
+                    resultado.getString("nombre"),
+                    resultado.getString("Direccion"),
+                    resultado.getString("telefono"),
+                };
+                
+                modelo.addRow(datos);
+                
+                // controlar si no se ecnotraron datos 
+                encontrado = true;
             }
+            
+            if (!encontrado){
+                JOptionPane.showMessageDialog(this, "NO SE ENCONTRARON REGISTROS CON ESE NOMBRE", "RESULTADO DE BUSQUEDA", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR-> "+ e, "ERROR0",JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+
+        
+        
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -99,8 +174,8 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_buscar = new javax.swing.JButton();
         id = new javax.swing.JLabel();
         nombre = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        t_id = new javax.swing.JTextField();
+        t_nombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
@@ -193,13 +268,13 @@ public class VentanaClientes extends javax.swing.JFrame {
         nombre.setText("Nombre");
         getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 110, -1, -1));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        t_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                t_idActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 70, 130, -1));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 130, -1));
+        getContentPane().add(t_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 70, 130, -1));
+        getContentPane().add(t_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 130, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Buscar clientes");
@@ -238,15 +313,25 @@ public class VentanaClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_b_volverActionPerformed
 
     private void b_insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_insertarActionPerformed
-        // TODO add your handling code here:
+        new VentanaInsertarUsuarios().setVisible(true);
     }//GEN-LAST:event_b_insertarActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void t_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_idActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_t_idActionPerformed
 
     private void b_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_buscarActionPerformed
-        
+        if (!t_id.getText().isEmpty()) {
+            buscarIdUsuario();
+            System.out.println("holaaaa");
+        } else if (!t_nombre.getText().isEmpty()) {
+            buscarNombeUsuario();
+        } else {
+            JOptionPane.showMessageDialog(null, "DEBES LLENAR LOS CAMPOS", "ALERTA", JOptionPane.WARNING_MESSAGE);
+
+        }
+        t_id.setText("");
+        t_nombre.setText("");
     }//GEN-LAST:event_b_buscarActionPerformed
 
     /**
@@ -295,12 +380,12 @@ public class VentanaClientes extends javax.swing.JFrame {
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel l_fondo;
     private javax.swing.JLabel l_logo;
     private javax.swing.JLabel l_text;
     private javax.swing.JLabel nombre;
+    private javax.swing.JTextField t_id;
+    private javax.swing.JTextField t_nombre;
     private javax.swing.JTable tabla1;
     // End of variables declaration//GEN-END:variables
 }

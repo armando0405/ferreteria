@@ -9,9 +9,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
                 Image icono =  Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono.png"));
         setIconImage(icono);
-        
         // poner el fomrulario en el centro
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +53,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_clientes.setForeground(new java.awt.Color(255, 255, 255));
         b_clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/clientes.png"))); // NOI18N
         b_clientes.setText("Clientes");
-        b_clientes.setBorder(null);
+        b_clientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_clientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_clientesActionPerformed(evt);
@@ -66,7 +66,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_productos.setForeground(new java.awt.Color(255, 255, 255));
         b_productos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/productos.png"))); // NOI18N
         b_productos.setText("Productos");
-        b_productos.setBorder(null);
+        b_productos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_productos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_productosActionPerformed(evt);
@@ -79,7 +79,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_ventas.setForeground(new java.awt.Color(255, 255, 255));
         b_ventas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ventas.png"))); // NOI18N
         b_ventas.setText("Ventas");
-        b_ventas.setBorder(null);
+        b_ventas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(b_ventas, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 200, 80));
 
         b_almacen.setBackground(new java.awt.Color(25, 153, 0));
@@ -87,7 +87,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_almacen.setForeground(new java.awt.Color(255, 255, 255));
         b_almacen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/almacen.png"))); // NOI18N
         b_almacen.setText("Almacen");
-        b_almacen.setBorder(null);
+        b_almacen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(b_almacen, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 220, 200, 80));
 
         b_salir.setBackground(new java.awt.Color(5, 153, 0));
@@ -95,7 +95,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_salir.setForeground(new java.awt.Color(255, 255, 255));
         b_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir.png"))); // NOI18N
         b_salir.setText("Salir");
-        b_salir.setBorder(null);
+        b_salir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_salirActionPerformed(evt);
@@ -111,7 +111,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_email.setForeground(new java.awt.Color(255, 255, 255));
         b_email.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/email.png"))); // NOI18N
         b_email.setText("E-mail");
-        b_email.setBorder(null);
+        b_email.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         b_email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_emailActionPerformed(evt);
@@ -124,7 +124,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         b_volver.setForeground(new java.awt.Color(255, 255, 255));
         b_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/volver.png"))); // NOI18N
         b_volver.setText("Volver");
-        b_volver.setBorder(null);
+        b_volver.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(b_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 120, 45));
 
         l_fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo_principal.jpg"))); // NOI18N

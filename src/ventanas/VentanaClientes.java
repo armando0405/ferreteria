@@ -29,6 +29,8 @@ public class VentanaClientes extends javax.swing.JFrame {
         mostrar("clientes");
 
     }
+    
+
 
     public void mostrar(String tabla) {
         String sql = "select * from " + tabla;
@@ -86,12 +88,13 @@ public class VentanaClientes extends javax.swing.JFrame {
         }
     }
     
-    public void buscarIdUsuario(){
-        String  id = t_id.getText();
-        
+    public void buscarIdUsuario() {
+        String id = t_id.getText();
+        // crear la conexion a la base de datos
         Connection conectar = Conexiones.conectar();
+        
         String sql = "select * from clientes  where id_cliente = ?";
-        DefaultTableModel modelo =  (DefaultTableModel) tabla1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
         modelo.setRowCount(0);
         try {
             PreparedStatement consulta = conectar.prepareStatement(sql);
@@ -109,6 +112,7 @@ public class VentanaClientes extends javax.swing.JFrame {
                 
             }else{
                  JOptionPane.showMessageDialog(this, "ID DE CLIENTE NO ENCOTRADO", "RESULTADO DE BUSQUEDA", JOptionPane.INFORMATION_MESSAGE);
+                 
             }
 
         } catch (SQLException e) {
@@ -121,7 +125,7 @@ public class VentanaClientes extends javax.swing.JFrame {
     public void buscarNombeUsuario() {
         String nombre = t_nombre.getText();
 
-        Connection conectar = Conexiones.conectar();
+       Connection conectar = Conexiones.conectar();
         String sql = "select * from clientes  where nombre  like ?";
         DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
         modelo.setRowCount(0);
@@ -135,7 +139,7 @@ public class VentanaClientes extends javax.swing.JFrame {
             while (resultado.next()) {
                 String[] datos = {
                     resultado.getString("id_cliente"),
-                    resultado.getString("nombre"),
+                    resultado.getString("nombre"), 
                     resultado.getString("Direccion"),
                     resultado.getString("telefono"),
                 };
@@ -238,6 +242,11 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_actualizar.setForeground(new java.awt.Color(255, 255, 255));
         b_actualizar.setText("Actualizar");
         b_actualizar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        b_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_actualizarActionPerformed(evt);
+            }
+        });
         getContentPane().add(b_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 179, 100, 30));
 
         b_borrar.setBackground(new java.awt.Color(25, 153, 0));
@@ -323,7 +332,6 @@ public class VentanaClientes extends javax.swing.JFrame {
     private void b_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_buscarActionPerformed
         if (!t_id.getText().isEmpty()) {
             buscarIdUsuario();
-            System.out.println("holaaaa");
         } else if (!t_nombre.getText().isEmpty()) {
             buscarNombeUsuario();
         } else {
@@ -333,6 +341,10 @@ public class VentanaClientes extends javax.swing.JFrame {
         t_id.setText("");
         t_nombre.setText("");
     }//GEN-LAST:event_b_buscarActionPerformed
+
+    private void b_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_actualizarActionPerformed
+       new VentanaActualizarUsuarios().setVisible(true);
+    }//GEN-LAST:event_b_actualizarActionPerformed
 
     /**
      * @param args the command line arguments

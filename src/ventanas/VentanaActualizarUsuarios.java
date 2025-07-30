@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -149,7 +150,71 @@ public class VentanaActualizarUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_t_nombre1ActionPerformed
 
     private void b_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_buscarActionPerformed
-        // TODO add your handling code here:
+
+        String idTexto = t_nombre1.getText().trim();
+
+        // Validar que no esté vacío
+        if (idTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingresa un ID para buscar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Validar que sea numérico
+        int id;
+        try {
+            id = Integer.parseInt(idTexto);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Connection conectar = Conexiones.conectar();
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+
+        try {
+            String sql = "SELECT nombre, direccion, telefono FROM clientes WHERE id_cliente = ?";
+            consulta = conectar.prepareStatement(sql);
+            consulta.setInt(1, id);
+            resultado = consulta.executeQuery();
+
+            if (resultado.next()) {
+                // Cliente encontrado, rellenar campos
+                t_nombre.setText(resultado.getString("nombre"));
+                t_direccion.setText(resultado.getString("direccion"));
+                t_telefono.setText(resultado.getString("telefono"));
+            } else {
+                // No existe el cliente
+                JOptionPane.showMessageDialog(this, "No se encontró un cliente con ese ID.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+                t_nombre.setText("");
+                t_direccion.setText("");
+                t_telefono.setText("");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar en la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException e) {
+            }
+            try {
+                if (consulta != null) {
+                    consulta.close();
+                }
+            } catch (SQLException e) {
+            }
+            try {
+                if (conectar != null) {
+                    conectar.close();
+                }
+            } catch (SQLException e) {
+            }
+            
+        }
+
     }//GEN-LAST:event_b_buscarActionPerformed
 
     /**

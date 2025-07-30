@@ -96,6 +96,16 @@ public class VentanaClientes extends javax.swing.JFrame {
         String sql = "select * from clientes  where id_cliente = ?";
         DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
         modelo.setRowCount(0);
+        
+        // Validar que sea numérico
+        int id_probar;
+        try {
+            id_probar = Integer.parseInt(id);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    
         try {
             PreparedStatement consulta = conectar.prepareStatement(sql);
             consulta.setString(1, id);
@@ -322,7 +332,7 @@ public class VentanaClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_b_volverActionPerformed
 
     private void b_insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_insertarActionPerformed
-        new VentanaInsertarUsuarios().setVisible(true);
+        new VentanaInsertarCliente().setVisible(true);
     }//GEN-LAST:event_b_insertarActionPerformed
 
     private void t_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_idActionPerformed

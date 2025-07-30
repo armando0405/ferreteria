@@ -1,7 +1,12 @@
 package ventanas;
 
+import conexiones.Conexiones;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class VentanaInsertarUsuarios extends javax.swing.JFrame {
 
@@ -33,7 +38,7 @@ public class VentanaInsertarUsuarios extends javax.swing.JFrame {
         copy = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         l_titulo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
@@ -99,7 +104,41 @@ public class VentanaInsertarUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_insertarActionPerformed
-        // TODO add your handling code here:
+        String nombre = t_nombre.getText();
+        String direccion =  t_direccion.getText();
+        String telefono = t_telefono.getText();
+        
+        Connection conectar = Conexiones.conectar();
+        
+        String sql = "insert into clientes(nombre, direccion, telefono) values(?,?,?)";
+
+        if (!t_nombre.getText().isEmpty() && !t_direccion.getText().isEmpty() && !t_telefono.getText().isEmpty()) {
+            try {
+                PreparedStatement consulta = conectar.prepareStatement(sql);
+                consulta.setString(1, nombre);
+                consulta.setString(2, direccion);
+                consulta.setString(3, telefono);
+
+                int insercion = consulta.executeUpdate();
+
+                if (insercion > 0) {
+                    JOptionPane.showMessageDialog(null, "SE REGISTRO A  " + nombre + " CORRECTAMENTE", "OPERACION EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+
+                }
+
+            } catch (SQLException e) {
+                System.out.println("ERROR: " + e);
+                JOptionPane.showMessageDialog(null, "ERROR-> " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "DEBES LLENAR TODOS LOS CAMPOS", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        
+        
     }//GEN-LAST:event_b_insertarActionPerformed
 
     private void t_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_nombreActionPerformed

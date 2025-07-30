@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-public class VentanaActualizarUsuarios extends javax.swing.JFrame {
+public class VentanaActualizarCliente extends javax.swing.JFrame {
 
-    public VentanaActualizarUsuarios() {
+    public VentanaActualizarCliente() {
         initComponents();
         Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono.png"));
         setIconImage(icono);
@@ -133,7 +133,64 @@ public class VentanaActualizarUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_actualizarActionPerformed
+        // Obtener valores de los campos
+        String idTexto = t_nombre1.getText().trim();
+        String nombre = t_nombre.getText().trim();
+        String direccion = t_direccion.getText().trim();
+        String telefono = t_telefono.getText().trim();
 
+        // Validar campos vacíos
+        if (idTexto.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debes llenar todos los campos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Validar que el ID sea numérico
+        int id;
+        try {
+            id = Integer.parseInt(idTexto);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+
+        // Conexión y actualización
+        Connection conectar = Conexiones.conectar();
+        PreparedStatement consulta = null;
+
+        try {
+            String sql = "UPDATE clientes SET nombre=?, direccion=?, telefono=? WHERE id_cliente=?";
+            consulta = conectar.prepareStatement(sql);
+            consulta.setString(1, nombre);
+            consulta.setString(2, direccion);
+            consulta.setString(3, telefono);
+            consulta.setInt(4, id);
+
+            int actualizados = consulta.executeUpdate();
+
+            if (actualizados > 0) {
+                JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dispose(); // Cierra la ventana al terminar
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró un cliente con ese ID.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar en la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (consulta != null) {
+                    consulta.close();
+                }
+            } catch (SQLException e) {
+            }
+            try {
+                if (conectar != null) {
+                    conectar.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
         
     }//GEN-LAST:event_b_actualizarActionPerformed
 
@@ -234,21 +291,23 @@ public class VentanaActualizarUsuarios extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaActualizarUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaActualizarUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaActualizarUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaActualizarUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaActualizarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaActualizarUsuarios().setVisible(true);
+                new VentanaActualizarCliente().setVisible(true);
             }
         });
     }

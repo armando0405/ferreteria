@@ -353,7 +353,7 @@ public class VentanaClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_b_buscarActionPerformed
 
     private void b_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_actualizarActionPerformed
-       new VentanaActualizarUsuarios().setVisible(true);
+       new VentanaActualizarCliente().setVisible(true);
     }//GEN-LAST:event_b_actualizarActionPerformed
 
     /**

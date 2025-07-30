@@ -193,6 +193,7 @@ public class VentanaClientes extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
+        b_refrescar = new javax.swing.JButton();
         l_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -319,6 +320,18 @@ public class VentanaClientes extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 1040, 300));
 
+        b_refrescar.setBackground(new java.awt.Color(5, 153, 0));
+        b_refrescar.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        b_refrescar.setForeground(new java.awt.Color(255, 255, 255));
+        b_refrescar.setText("Refrescar");
+        b_refrescar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        b_refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_refrescarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(b_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 560, 120, 45));
+
         l_fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo_clientes.jpg"))); // NOI18N
         getContentPane().add(l_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 620));
 
@@ -366,6 +379,11 @@ public class VentanaClientes extends javax.swing.JFrame {
         new VentanaBorrarClientes().setVisible(true);
     }//GEN-LAST:event_b_borrarActionPerformed
 
+    private void b_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_refrescarActionPerformed
+        mostrar("clientes");
+        //aqui esta ya
+    }//GEN-LAST:event_b_refrescarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -406,6 +424,7 @@ public class VentanaClientes extends javax.swing.JFrame {
     private javax.swing.JButton b_borrar;
     private javax.swing.JButton b_buscar;
     private javax.swing.JButton b_insertar;
+    private javax.swing.JButton b_refrescar;
     private javax.swing.JButton b_salir;
     private javax.swing.JButton b_volver;
     private javax.swing.JLabel copy;

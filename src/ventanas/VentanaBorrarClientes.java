@@ -31,7 +31,7 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
         l_nombre = new javax.swing.JLabel();
         l_direccion = new javax.swing.JLabel();
         l_telefoino = new javax.swing.JLabel();
-        b_actualizar = new javax.swing.JButton();
+        b_borrar = new javax.swing.JButton();
         b_cancelar = new javax.swing.JButton();
         t_nombre = new javax.swing.JTextField();
         t_direccion = new javax.swing.JTextField();
@@ -47,7 +47,7 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
 
         l_titulo.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         l_titulo.setForeground(new java.awt.Color(0, 102, 102));
-        l_titulo.setText("Actualizar Cliente");
+        l_titulo.setText("Eliminar Cliente");
         getContentPane().add(l_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
 
         l_nombre.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -65,17 +65,17 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
         l_telefoino.setText("Teléfono");
         getContentPane().add(l_telefoino, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, -1, -1));
 
-        b_actualizar.setBackground(new java.awt.Color(5, 153, 0));
-        b_actualizar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        b_actualizar.setForeground(new java.awt.Color(255, 255, 255));
-        b_actualizar.setText("Actualizar");
-        b_actualizar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        b_actualizar.addActionListener(new java.awt.event.ActionListener() {
+        b_borrar.setBackground(new java.awt.Color(5, 153, 0));
+        b_borrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        b_borrar.setForeground(new java.awt.Color(255, 255, 255));
+        b_borrar.setText("Borrar");
+        b_borrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        b_borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_actualizarActionPerformed(evt);
+                b_borrarActionPerformed(evt);
             }
         });
-        getContentPane().add(b_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 130, 40));
+        getContentPane().add(b_borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 130, 40));
 
         b_cancelar.setBackground(new java.awt.Color(5, 153, 0));
         b_cancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -89,13 +89,18 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
         });
         getContentPane().add(b_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, 130, 40));
 
+        t_nombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         t_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 t_nombreActionPerformed(evt);
             }
         });
         getContentPane().add(t_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 270, 30));
+
+        t_direccion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         getContentPane().add(t_direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 270, 30));
+
+        t_telefono.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         getContentPane().add(t_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 270, 30));
 
         copy.setText("famaCorporation System  ©");
@@ -132,18 +137,12 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void b_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_actualizarActionPerformed
+    private void b_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_borrarActionPerformed
         // Obtener valores de los campos
         String idTexto = t_nombre1.getText().trim();
         String nombre = t_nombre.getText().trim();
         String direccion = t_direccion.getText().trim();
         String telefono = t_telefono.getText().trim();
-
-        // Validar campos vacíos
-        if (idTexto.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debes llenar todos los campos.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
         
         // Validar que el ID sea numérico
         int id;
@@ -160,23 +159,21 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
         PreparedStatement consulta = null;
 
         try {
-            String sql = "UPDATE clientes SET nombre=?, direccion=?, telefono=? WHERE id_cliente=?";
+            String sql = "DELETE FROM clientes  WHERE id_cliente=?";
             consulta = conectar.prepareStatement(sql);
-            consulta.setString(1, nombre);
-            consulta.setString(2, direccion);
-            consulta.setString(3, telefono);
-            consulta.setInt(4, id);
+            consulta.setInt(1, id);
 
             int actualizados = consulta.executeUpdate();
 
             if (actualizados > 0) {
-                JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "SE HA ELIMINADO AL CLIENTE "+ nombre + " CORRECTAMENTE.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Cierra la ventana al terminar
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró un cliente con ese ID.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar en la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al borrar en la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error al actualizar en la base de datos: " + e.getMessage());
         } finally {
             try {
                 if (consulta != null) {
@@ -192,7 +189,7 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
             }
         }
         
-    }//GEN-LAST:event_b_actualizarActionPerformed
+    }//GEN-LAST:event_b_borrarActionPerformed
 
     private void t_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_nombreActionPerformed
         // TODO add your handling code here:
@@ -313,7 +310,7 @@ public class VentanaBorrarClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_actualizar;
+    private javax.swing.JButton b_borrar;
     private javax.swing.JButton b_buscar;
     private javax.swing.JButton b_cancelar;
     private javax.swing.JLabel copy;

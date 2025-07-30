@@ -264,6 +264,11 @@ public class VentanaClientes extends javax.swing.JFrame {
         b_borrar.setForeground(new java.awt.Color(255, 255, 255));
         b_borrar.setText("Borrar");
         b_borrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        b_borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_borrarActionPerformed(evt);
+            }
+        });
         getContentPane().add(b_borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 179, 70, 30));
 
         b_buscar.setBackground(new java.awt.Color(25, 153, 0));
@@ -355,6 +360,11 @@ public class VentanaClientes extends javax.swing.JFrame {
     private void b_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_actualizarActionPerformed
        new VentanaActualizarCliente().setVisible(true);
     }//GEN-LAST:event_b_actualizarActionPerformed
+
+    private void b_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_borrarActionPerformed
+        // TODO add your handling code here:
+        new VentanaBorrarClientes().setVisible(true);
+    }//GEN-LAST:event_b_borrarActionPerformed
 
     /**
      * @param args the command line arguments
